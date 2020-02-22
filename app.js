@@ -1,16 +1,49 @@
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser");
 
 app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.static("public"));
+
+let items = ["buy food", "eat food", "eat more food"];
+let workItems = [];
 
 app.get("/", function(req, res) {
 	let todayDate = new Date();
-	let day = "";
+	var options = {
+		day: "numeric",
+		weekday: "long",
+		month: "long"
+	};
 
-	if (todayDate === 6 || todayDate === 0) {
-		res.sendFile(__dirname + "/weekends.html");
+	let day = todayDate.toLocaleDateString("en-US", options);
+
+	// if (currentDate === 6 || currentDate === 0) {
+	// 	day = "weekend";
+	// } else {
+	// 	day = "weekday";
+	// }
+	res.render("list", { day: day, items: items });
+});
+
+app.get("/work", function(req, res) {
+	res.render("list", { day: "Work List", items: workItems });
+});
+
+app.get("/about", function(req, res) {
+	res.render("about");
+});
+
+app.post("/", function(req, res) {
+	let item = req.body.newItem;
+	if (req.body.list === "Work List") {
+		workItems.push(item);
+		res.redirect("/work");
 	} else {
-		res.sendFile(__dirname + "/weekdays.html");
+		items.push(item);
+		res.redirect("/");
 	}
 });
 

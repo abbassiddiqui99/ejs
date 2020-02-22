@@ -1,11 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Document</title>
-	</head>
-	<body>
-		<h1>today is a <%= day %></h1>
-	</body>
-</html>
+<%- include("header") -%>
+
+<div class="box" id="heading">
+	<h1><%= day %></h1>
+</div>
+
+<div class="box">
+	<% for (var i = 0; i < items.length ;i++) { %>
+	<div class="item">
+		<input type="checkbox" />
+		<p><%= items[i] %></p>
+	</div>
+	<% } %>
+	<form class="item" action="/" method="POST">
+		<input
+			type="text"
+			name="newItem"
+			placeholder="New Item"
+			autocomplete="off"
+		/>
+		<button type="submit" name="list" value="<%= day %>">+</button>
+	</form>
+</div>
+
+<!-- <% if (day === "weekend") { %>
+		<h1 style="color: green;">today is a <%= day %></h1>
+		<% } else { %>
+		<h1 style="color: red;">today is a <%= day %></h1>
+		<% } %> -->
+
+<%- include("footer") -%>
