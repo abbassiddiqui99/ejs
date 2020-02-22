@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const date = require(__dirname + "/date.js");
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -11,20 +12,7 @@ let items = ["buy food", "eat food", "eat more food"];
 let workItems = [];
 
 app.get("/", function(req, res) {
-	let todayDate = new Date();
-	var options = {
-		day: "numeric",
-		weekday: "long",
-		month: "long"
-	};
-
-	let day = todayDate.toLocaleDateString("en-US", options);
-
-	// if (currentDate === 6 || currentDate === 0) {
-	// 	day = "weekend";
-	// } else {
-	// 	day = "weekday";
-	// }
+	let day = date.getDate();
 	res.render("list", { day: day, items: items });
 });
 
